@@ -1,4 +1,3 @@
-Set the shell to zsh
 export SHELL=/bin/zsh
 
 export LANG=en_US.UTF8
