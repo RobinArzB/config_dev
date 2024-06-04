@@ -20,7 +20,7 @@ ifneq ($(WSL_VERSION),)
 endif
 
 # Define the Neovim version
-VERSION ?= master
+VERSION ?= stable
 
 # Help target
 help:
@@ -29,8 +29,12 @@ help:
 	@echo ""
 	@echo "Targets:"
 	@echo "  install-deps    Install dependencies"
-	@echo "  build           Build the project"
+	@echo "  bootstrap-env   Setting up some tools (k8s related)"
+	@echo "  dotfiles   	 Setting up dotfiles"
+	@echo "  all   	 		 Full setup"
+	@echo "  nix   	 		 Install Nix"
 	@echo "  clean           Clean the project"
+	@echo "  clean-nix       Remove Nix"
 	@echo "  help            Show this help message"
 	@echo ""
 	@echo "VERSION options:"
@@ -38,20 +42,37 @@ help:
 	@echo "  stable          Latest Neovim stable version (e.g., v0.10.0)"
 
 # Default install dependencies target
-install-deps: install-deps-$(DETECTED_OS)
-
-# Default clean target
-clean: clean-$(DETECTED_OS)
+install-deps: install-deps-$(DETECTED_OS) 
 
 # Debian/Ubuntu targets
 install-deps-debian:
 	@echo "Installing dependencies for Debian/Ubuntu..."
-	bash ./install-deps.sh $(VERSION)
+	bash ./scripts/install-deps.sh $(VERSION)
 
 # WSL targets
 install-deps-wsl:
 	@echo "Installing dependencies for WSL..."
-	bash ./install-deps.sh --no-gui $(VERSION)
+	bash ./scripts/install-deps.sh --no-gui $(VERSION)
+
+bootstrap-env:
+	@echo "Running bootstrap-env.sh script..."
+	bash ./scripts/bootstrap-env.sh
+
+dotfiles:
+	@echo "Setting up dotfiles..."
+	bash ./scripts/links.sh
+
+# All target for full setup
+all: all-$(DETECTED_OS)
+
+# Full setup for Debian/Ubuntu
+all-debian: install-deps-debian bootstrap-env dotfiles
+
+# Full setup for WSL
+all-wsl: install-deps-wsl bootstrap-env dotfiles
+
+# Default clean target
+clean: clean-$(DETECTED_OS)
 
 # Nix targets
 nix:
