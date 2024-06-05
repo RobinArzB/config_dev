@@ -4,7 +4,7 @@ set -e
 set -x
 
 INSTALL_GUI=true
-NEOVIM_VERSION="master"
+NEOVIM_VERSION="stable"
 
 if [ "$1" == "--no-gui" ]; then
     INSTALL_GUI=false
@@ -103,7 +103,7 @@ sudo apt install -y \
     python3-venv \
     xclip dnsutils \
     btop pass tree \
-    direnv
+    direnv pwgen i3 i3status
 
 echo "Installing 'uv' - Python package installer..."
 if ! command -v uv &> /dev/null ; then

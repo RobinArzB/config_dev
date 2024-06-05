@@ -1,0 +1,30 @@
+#!/bin/bash
+lock() {
+    i3lock --show-failed-attempts -f -t -i ~/wallpapers/single/almost-got-im-2560x1440-v0-okvd8c2a1hsa1.jpg
+}
+
+case "$1" in
+    lock)
+        lock
+        ;;
+    logout)
+        i3-msg exit
+        ;;
+    suspend)
+        lock && systemctl suspend
+        ;;
+    hibernate)
+        lock && systemctl hibernate
+        ;;
+    reboot)
+        systemctl reboot
+        ;;
+    shutdown)
+        systemctl poweroff
+        ;;
+    *)
+        echo "Usage: $0 {lock|logout|suspend|hibernate|reboot|shutdown}"
+        exit 2
+esac
+
+exit 0
