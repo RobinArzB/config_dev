@@ -1,4 +1,12 @@
-#!/usr/bin/env sh
+#!/bin/bash -e
+
+while [[ "$1" != "" ]]; do
+    case $1 in
+        --debug ) set -x
+                  ;;
+    esac
+    shift
+done
 
 BIN_PATH="${XDG_CONFIG_HOME}/bin"
 BUILD_PATH="${HOME}/build"

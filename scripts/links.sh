@@ -1,6 +1,12 @@
-#!/bin/bash
+#!/bin/bash -e
 
-set -x
+while [[ "$1" != "" ]]; do
+    case $1 in
+        --debug ) set -x
+                  ;;
+    esac
+    shift
+done
 
 if [[ -d "$HOME/.config" ]]; then
     MOVE_CONFIG=true
